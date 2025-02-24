@@ -38,7 +38,7 @@
             timeout: 15000
         }
         const success = (pos) => {
-            console.log(
+            alert(
                 `Longitude: ${pos.coords.longitude} Latitude: ${pos.coords.latitude}`)
             getAddress(pos.coords.longitude, pos.coords.latitude)
         }
@@ -52,12 +52,22 @@
         const getAddress = (longitude, latitude) => {
             fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
                 .then(response => response.json())
-                .then(data => console.log("Address:", data.display_name))
-                .catch(error => console.error("Error:", error))
+                .then(data => alert("Address:", data.display_name))
+                .catch(error => alert("Error:", error))
         }
 
         // Access the camera
         const openCamera = () => {
+            if (window.isSecureContext) {
+                alert('Page is in a secure context (HTTPS or localhost).');
+            } else {
+                alert('getUserMedia requires a secure context (HTTPS or localhost).');
+            }
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert('getUserMedia is not supported in this browser');
+            } else {
+                alert('getUserMedia is supported!');
+            }
             navigator.mediaDevices.getUserMedia({
                 video: {
                     width: { min: 640 }, // Request the highest width available
@@ -100,8 +110,8 @@
             getCoords()
         })
         resolutionButton.addEventListener("click", () => {
-            console.log(video.videoWidth)
-            console.log(video.videoHeight)
+            alert(video.videoWidth)
+            alert(video.videoHeight)
         })
 
 
