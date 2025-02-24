@@ -8,7 +8,104 @@
 </head>
 
 <body>
-    TEST
+    <video id="video" autoplay></video>
+    <button id="capture">📷 Take Photo</button>
+    <button id="on">Turn On</button>
+    <button id="off">Turn Off</button>
+    <button id="resolution">Resolution</button>
+    <button id="location">Location</button>
+    <canvas id="canvas"></canvas>
 </body>
+
+<script>
+
+    // document.addEventListener("online", () => console.log("User is online"));
+    // document.addEventListener("offline", () => console.log("User is offline"));
+    // console.log(`User is online: ${navigator.onLine}`);
+    document.addEventListener('DOMContentLoaded', function () {
+        const onButton = document.getElementById("on");
+        const offButton = document.getElementById("off");
+        const resolutionButton = document.getElementById("resolution");
+        const getLocation = document.getElementById("location");
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const captureButton = document.getElementById("capture");
+        const context = canvas.getContext("2d");
+
+        const options = {
+            maximumAge: 10000,
+            enableHighAccuracy: true,
+            timeout: 15000
+        }
+        const success = (pos) => {
+            console.log(
+                `Longitude: ${pos.coords.longitude} Latitude: ${pos.coords.latitude}`)
+            getAddress(pos.coords.longitude, pos.coords.latitude)
+        }
+        const error = (err) => {
+            console.log(err)
+        }
+        const getCoords = () => {
+            navigator.geolocation.getCurrentPosition(success, error, options)
+        }
+
+        const getAddress = (longitude, latitude) => {
+            fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
+                .then(response => response.json())
+                .then(data => console.log("Address:", data.display_name))
+                .catch(error => console.error("Error:", error))
+        }
+
+        // Access the camera
+        const openCamera = () => {
+            navigator.mediaDevices.getUserMedia({
+                video: {
+                    width: { min: 640 }, // Request the highest width available
+                    height: { min: 400 }
+                }
+            })
+                .then((stream) => {
+                    video.srcObject = stream
+                })
+                .catch((error) => {
+                    if (error.name === "NotFoundError" || error.name === "DevicesNotFoundError") {
+                        alert("No camera detected. Please connect a webcam.")
+                    } else if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
+                        alert("Camera access denied. Please allow camera permissions.")
+                    } else {
+                        alert("Error accessing camera: " + error.message)
+                    }
+                })
+        }
+        // Capture photo on button click
+        captureButton.addEventListener("click", () => {
+            canvas.width = video.videoWidth
+            canvas.height = video.videoHeight
+            context.drawImage(video, 0, 0, canvas.width, canvas.height)
+            getCoords()
+        })
+        onButton.addEventListener("click", () => {
+            openCamera()
+        })
+        offButton.addEventListener("click", () => {
+            if (video.srcObject) {
+                video.srcObject.getVideoTracks().forEach((track) => {
+                    track.stop();
+                    video.srcObject.removeTrack(track);
+                });
+                video.srcObject = null;
+            }
+        })
+        getLocation.addEventListener("click", () => {
+            getCoords()
+        })
+        resolutionButton.addEventListener("click", () => {
+            console.log(video.videoWidth)
+            console.log(video.videoHeight)
+        })
+
+
+    })
+</script>
 
 </html>
