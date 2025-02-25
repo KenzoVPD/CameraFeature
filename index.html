@@ -37,6 +37,14 @@
             enableHighAccuracy: true,
             timeout: 15000
         }
+
+        const getAddress = (longitude, latitude) => {
+            fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
+                .then(response => response.json())
+                .then(data => console.log(`Address: ${data.display_name}`))
+                .catch(error => alert("Error:", error))
+        }
+
         const success = (pos) => {
             alert(
                 `Longitude: ${pos.coords.longitude} Latitude: ${pos.coords.latitude}`)
@@ -49,12 +57,6 @@
             navigator.geolocation.getCurrentPosition(success, error, options)
         }
 
-        const getAddress = (longitude, latitude) => {
-            fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
-                .then(response => response.json())
-                .then(data => alert("Address:", data.display_name))
-                .catch(error => alert("Error:", error))
-        }
 
         // Access the camera
         const openCamera = () => {
