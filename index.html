@@ -194,14 +194,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div> --}} -->
                 <div class="modal-body">
-                    <video id="videoElement" style="width: 100%;"></video>
+                    <video id="videoElement"
+                        style="width: 100%; transform: scaleX(-1); -webkit-transform: scaleX(-1);"></video>
                     <canvas id="canvas" style="display: none"></canvas>
                     <img id="capturedPhoto" alt="Captured Photo" style="display: none">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="captureBtn" disabled><i
-                            class="fa-solid fa-camera"></i> Capture</button>
-                    <button type="button" class="btn btn-secondary" id="closeCameraModalBtn"
+                    <!-- CAPTURE BUTTON -->
+                    <button type="button" class="btn btn-dark" id="captureBtn" disabled><i
+                            class="fa-solid fa-camera px-3"></i></button>
+                    <!-- BACK BUTTON -->
+                    <button type="button" class="btn btn-light" id="closeCameraModalBtn"
                         data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -452,7 +455,12 @@
                 formData.forEach((value, key) => {
                     result += `${key}: ${value}`;
                 });
-                alert(result);
+                // alert(convertedImageInput.value);
+                Swal.fire({
+                    title: "Success!",
+                    text: convertedImageInput.value,
+                    icon: "success"
+                });
                 // form.submit()
             }
 
