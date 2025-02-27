@@ -91,98 +91,96 @@
         <button class="btn btn-danger mx-1" id="debugAddress" disabled>Address</button>
     </div>
     <!-- {{-- MAIN --}} -->
-    <div class="d-flex justify-content-center align-items-center my-1 vh-100">
-        <div class="container-fluid">
-            <!-- {{-- FORM ROW --}} -->
-            <div class="row">
-                <div class="col-md-1 col-lg-1 col-xl-2"></div>
-                <!-- {{-- DATE COL --}} -->
-                <div
-                    class="py-3 py-md-5 col-10 mx-auto col-sm-9 mx-sm-auto col-md-5 col-lg-5 col-xl-5 rounded bg-white">
-                    <!-- {{-- COMPANY NAME --}} -->
-                    <div class="d-flex justify-content-center">
-                        <img src="#" alt="Logo" style="height: 2.5rem; width: 2.5rem;">
-                        <p class="fs-3 text-center fw-bold" style="color: #003851;">VERACT SYSTEM</p>
+    <div class="container-fluid my-2 my-sm-3 my-md-4">
+        <!-- {{-- FORM ROW --}} -->
+        <div class="row">
+            <div class="col-sm-1 col-md-1 col-lg-1 col-xl-2"></div>
+            <!-- {{-- DATE COL --}} -->
+            <div class="py-3 py-md-5 col-10 mx-auto col-sm-5 mx-sm-0 col-md-5 col-lg-5 col-xl-5 rounded bg-white">
+                <!-- {{-- COMPANY NAME --}} -->
+                <div class="d-flex justify-content-center">
+                    <img src="veracity_logo.png" alt="" style="height: 2.5rem; width: 2.5rem;">
+                    <p class="fs-2 text-center fw-bold" style="color: rgb(35, 35, 37);">VeraCT System</p>
+                </div>
+                <!-- {{-- QOUTE --}} -->
+                <p class="fs-4 text-center" style="color: rgb(35, 35, 37);">Shifting Your Ways</p>
+                <!-- {{-- UPDATING TIME --}} -->
+                <div id="txt" class="fs-1 fw-bolder text-center pt-2"
+                    style="color:rgb(35, 35, 37); font-family: 'Roboto', sans-serif;"></div>
+                <!-- {{-- DATE --}} -->
+                <p class="fs-5 pt-4 text-center" style="color:rgb(35, 35, 37);">
+                    <script>
+                        document.write(new Date().toDateString());
+                    </script>
+                </p>
+            </div>
+
+            <!-- {{-- ATTENDANCE FORM COL --}} -->
+            <div class="py-3 py-md-5 col-10 mx-auto col-sm-5 mx-sm-0 col-md-5 col-lg-5 col-xl-3 rounded"
+                style="background: rgba(20, 40, 40, .8);">
+                <!-- {{-- ATTENDANCE FORM --}} -->
+                <form class="" action="#" method="POST" id="attendanceForm">
+                    <!-- @csrf -->
+                    <h2 class="text-center text-truncate fs-3" id="attendance-header">Attendance Log <i
+                            class="fa-solid fa-clock"></i></h2>
+
+                    <!-- {{-- OPEN CAMERA BUTTON --}} -->
+                    <button type="button" id="openCameraModalBtn" hidden>Open Camera</button>
+
+                    <!-- {{-- TIME IN/OUT INPUT --}} -->
+                    <div class="text-center">
+                        <select name="log" class="inputFields">
+                            <option value="1">Time In</option>
+                            <option value="2">Time Out</option>
+                        </select>
                     </div>
-                    <!-- {{-- QOUTE --}} -->
-                    <p class="fs-4 text-center" style="color: #003851;">Shifting Your Ways</p>
-                    <!-- {{-- UPDATING TIME --}} -->
-                    <div id="txt" class="fs-1 fw-bolder text-center pt-2"
-                        style="color:rgb(35, 35, 37); font-family: 'Roboto', sans-serif;"></div>
-                    <!-- {{-- DATE --}} -->
-                    <p class="fs-5 pt-4 text-center" style="color:rgb(56, 53, 53);">
-                        <script>
-                            document.write(new Date().toDateString());
-                        </script>
-                    </p>
-                </div>
 
-                <!-- {{-- ATTENDANCE FORM COL --}} -->
-                <div class="py-3 py-md-5 col-10 mx-auto col-sm-9 mx-sm-auto col-md-5 col-lg-5 col-xl-3 rounded"
-                    style="background: rgba(20, 40, 40, .8);">
-                    <!-- {{-- ATTENDANCE FORM --}} -->
-                    <form class="" action="#" method="POST" id="attendanceForm">
-                        <!-- @csrf -->
-                        <h2 class="text-center text-truncate" id="attendance-header">Attendance Log <i
-                                class="fa-solid fa-clock"></i></h2>
+                    <!-- {{-- EMPLOYEE ID INPUT --}} -->
+                    <div class="text-center">
+                        <input type="text" class="inputFields" name="employee_id" placeholder="Employee ID"
+                            value="1034030" {{-- oninput="return userNameValidation(this.value)" --}}
+                            onkeypress="return alpanumericvalidation(event)" required />
+                    </div>
 
-                        <!-- {{-- OPEN CAMERA BUTTON --}} -->
-                        <button type="button" id="openCameraModalBtn" hidden>Open Camera</button>
+                    <!-- {{-- SIGN IN BUTTON --}} -->
+                    <div class="text-center mb-3">
+                        <button type="submit" id="submitBtn" name="join" alt="Join">SUBMIT</button>
+                    </div>
 
-                        <!-- {{-- TIME IN/OUT INPUT --}} -->
-                        <div class="text-center">
-                            <select name="log" class="inputFields">
-                                <option value="1">Time In</option>
-                                <option value="2">Time Out</option>
-                            </select>
-                        </div>
+                    <!-- {{-- CONTROLLER RESPONSE TEXT --}}
+                    @if (session()->has('message'))
+                    <div class="text-center alert alert-{{ session()->get('alert-type') }}">
+                        <span class="sp"><b> {{ session()->get('message') }}</b></span>
+                    </div>
+                    @endif
+                    @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger mb-2 text-center">
+                        <span><b> {{ $error }}</b></span>
+                    </div>
+                    @endforeach
+                    @endif -->
 
-                        <!-- {{-- EMPLOYEE ID INPUT --}} -->
-                        <div class="text-center">
-                            <input type="text" class="inputFields" name="employee_id" placeholder="Employee ID"
-                                value="1034030" required />
-                        </div>
+                    <!-- {{-- HIDDEN DATA INPUT --}} -->
+                    <input type="hidden" name="company_id" value="">
+                    <input type="hidden" id="convertedImage" name="convertedImage">
+                    <input type="hidden" id="longitude" name="longitude">
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="address" name="address">
+                    <input type="hidden" id="date" name="date" value="">
 
-                        <!-- {{-- SIGN IN BUTTON --}} -->
-                        <div class="text-center mb-3">
-                            <button type="submit" id="submitBtn" name="join" alt="Join">SUBMIT</button>
-                        </div>
-
-                        <!-- {{-- CONTROLLER RESPONSE TEXT --}}
-                        @if (session()->has('message'))
-                        <div class="text-center alert alert-{{ session()->get('alert-type') }}">
-                            <span class="sp"><b> {{ session()->get('message') }}</b></span>
-                        </div>
-                        @endif
-                        @if ($errors->any())
-                        @foreach ($errors->all() as $error)
-                        <div class="alert alert-danger mb-2 text-center">
-                            <span><b> {{ $error }}</b></span>
-                        </div>
-                        @endforeach
-                        @endif -->
-
-                        <!-- {{-- HIDDEN DATA INPUT --}} -->
-                        <input type="hidden" name="company_id" value="">
-                        <input type="hidden" id="convertedImage" name="convertedImage">
-                        <input type="hidden" id="longitude" name="longitude">
-                        <input type="hidden" id="latitude" name="latitude">
-                        <input type="hidden" id="address" name="address">
-                        <input type="hidden" id="date" name="date" value="">
-
-                    </form>
-                </div>
-                <div class="col-md-1 col-lg-1 col-xl-2"></div>
+                </form>
             </div>
-            <!-- {{-- BUTTON ROW --}} -->
-            <div class="row mt-2">
-                <div class="col-md-1 col-lg-1 col-xl-2"></div>
-                <div class="col-10 mx-auto col-sm-9 mx-sm-auto col-md-10 col-lg-10 col-xl-8">
-                    <!-- {{-- BACK BUTTON --}} -->
-                    <a href="#" class="btn btn-dark px-4"> <i class="fa-solid fa-angle-left"></i> Back</a>
-                </div>
-                <div class="col-md-1 col-lg-1 col-xl-2"></div>
+            <div class="col-sm-1 col-md-1 col-lg-1 col-xl-2"></div>
+        </div>
+        <!-- {{-- BUTTON ROW --}} -->
+        <div class="row mt-2">
+            <div class="col-sm-1 col-md-1 col-lg-1 col-xl-2"></div>
+            <div class="col-10 mx-auto col-sm-10 mx-sm-auto col-md-10 col-lg-10 col-xl-8">
+                <!-- {{-- BACK BUTTON --}} -->
+                <a href="#" class="btn btn-dark px-4"> <i class="fa-solid fa-angle-left"></i> Back</a>
             </div>
+            <div class="col-sm-1 col-md-1 col-lg-1 col-xl-2"></div>
         </div>
     </div>
     <!-- {{-- CAMERA MODAL --}} -->
@@ -287,6 +285,9 @@
                         videoElement.style.display = 'block';
                         capturedPhoto.style.display = 'none';
                         captureBtn.disabled = false;
+
+                        canvas.width = videoElement.videoWidth;
+                        canvas.height = videoElement.videoHeight;
                         // document.getElementById('retakeBtn').disabled = true;
                         // if(!streaming){
                         //     // Resize the canvas to fit the modal size
@@ -310,10 +311,10 @@
 
             // Capture the photo, get location and address
             async function capturePhoto() {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
                 // Draw the resized video frame onto the canvas
-                context.drawImage(videoElement, 0, 0, videoElement.videoWidth, videoElement.videoHeight);
+                canvas.width = videoElement.clientWidth;
+                canvas.height = videoElement.clientHeight;
+                context.drawImage(videoElement, 0, 0, videoElement.clientWidth, videoElement.clientHeight);
 
                 const photoDataUrl = canvas.toDataURL('image/jpeg');
                 capturedPhoto.width = videoElement.clientWidth;
@@ -465,7 +466,6 @@
                 copyText(convertedImageInput.value);
                 Swal.fire({
                     title: "Success!",
-                    text: convertedImageInput.value,
                     icon: "success"
                 });
                 // form.submit()
@@ -574,21 +574,31 @@
 
     <!-- {{-- INPUT VALIDATION --}} -->
     <script>
-        var alertRedInput = "#8C1010";
-        var defaultInput = "rgba(10, 180, 180, 1)";
+        // var alertRedInput = "#8C1010";
+        // var defaultInput = "rgba(10, 180, 180, 1)";
 
-        function userNameValidation(usernameInput) {
-            var username = document.getElementById("username");
-            var issueArr = [];
-            if (/[-!@#$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(usernameInput)) {
-                issueArr.push("No special characters!");
-            }
-            if (issueArr.length > 0) {
-                username.setCustomValidity(issueArr);
-                username.style.borderColor = alertRedInput;
+        // function userNameValidation(usernameInput) {
+        //     var username = document.getElementById("username");
+        //     var issueArr = [];
+        //     if (/[-!@#$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(usernameInput)) {
+        //         issueArr.push("No special characters!");
+        //     }
+        //     if (issueArr.length > 0) {
+        //         username.setCustomValidity(issueArr);
+        //         username.style.borderColor = alertRedInput;
+        //     } else {
+        //         username.setCustomValidity("");
+        //         username.style.borderColor = defaultInput;
+        //     }
+        // }
+        function alpanumericvalidation(event) {
+            var charCode = event.which || event.keyCode;
+            if ((charCode >= 48 && charCode <= 57) ||
+                (charCode >= 65 && charCode <= 90) ||
+                (charCode >= 97 && charCode <= 122)) {
+                return true;
             } else {
-                username.setCustomValidity("");
-                username.style.borderColor = defaultInput;
+                return false;
             }
         }
     </script>
