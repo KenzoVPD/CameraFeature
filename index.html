@@ -411,6 +411,12 @@
                 }
             }
 
+            function copyText(text) {
+                navigator.clipboard.writeText(text)
+                    .then(() => alert("Copied to clipboard!"))
+                    .catch(err => alert("Error copying text: ", err));
+            }
+
             // function getAddress(longitude, latitude) {
             //     return fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
             //         .then(response => response.json())
@@ -456,6 +462,7 @@
                     result += `${key}: ${value}`;
                 });
                 // alert(convertedImageInput.value);
+                copyText(convertedImageInput.value);
                 Swal.fire({
                     title: "Success!",
                     text: convertedImageInput.value,
