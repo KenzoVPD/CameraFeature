@@ -85,10 +85,10 @@
 
 <body onload="startTime()">
     <!-- {{-- DEBUG --}} -->
-    <div id="debuggingContainer" style="position: absolute; top: 0; left: 0; display: none;">
-        <div class="col-12">
-            TEST
-        </div>
+    <div id="debuggingContainer" style="position: absolute; top: 10%; left: 5%; display: none;">
+        <button class="btn btn-danger mx-1" id="debugMediaDevices">Media Devices</button>
+        <button class="btn btn-danger mx-1" id="debugGeolocation">Geolocation</button>
+        <button class="btn btn-danger mx-1" id="debugAddress" disabled>Address</button>
     </div>
     <!-- {{-- MAIN --}} -->
     <div class="d-flex justify-content-center align-items-center my-1 vh-100">
@@ -228,19 +228,6 @@
             const closeCameraModalBtn = document.getElementById('closeCameraModalBtn');
             const submitBtn = document.getElementById('submitBtn');
 
-
-            let debugging = false;
-            document.querySelector("#attendance-header i").addEventListener('click', () => {
-                debugging = !debugging;
-                if (debugging) {
-                    debuggingContainer.style.display = 'block';
-                } else {
-                    debuggingContainer.style.display = 'none';
-                }
-            });
-            const debuggingContainer = document.getElementById('debuggingContainer');
-
-
             // Show the camera modal, load the camera stream
             function openCameraModal() {
                 var myModal = new bootstrap.Modal(document.getElementById('cameraModal'));
@@ -348,15 +335,15 @@
 
                     // Longitude and Latitude input data
                     const { longitude, latitude } = await getCoordinates();
-                    // longitudeInput.value = longitude;
-                    // latitudeInput.value = latitude;
+                    longitudeInput.value = longitude;
+                    latitudeInput.value = latitude;
 
                     // Address input data
                     const address = await getAddress(longitude, latitude);
-                    // addressInput.value = address;
+                    addressInput.value = address;
 
                     // Save converted image to input for submission
-                    // convertedImageInput.value = photoDataUrl;
+                    convertedImageInput.value = photoDataUrl;
                 } catch (error) {
                     switch (error.code) {
                         case error.PERMISSION_DENIED:
@@ -461,10 +448,12 @@
 
                 // Create a new FormData object and append the File object to it
                 const formData = new FormData(form);
+                let result = "";
                 formData.forEach((value, key) => {
-                    console.log(`${key}: ${value}`);
+                    result += `${key}: ${value}`;
                 });
-                form.submit()
+                alert(result);
+                // form.submit()
             }
 
             // Add event listeners to the buttons
@@ -479,6 +468,57 @@
                 event.preventDefault(); // Prevent the form from submitting traditionally
                 openCameraModal();
             });
+
+            let debugging = false;
+            let testLong = "";
+            let testLat = "";
+            document.querySelector("#attendance-header i").addEventListener('click', () => {
+                debugging = !debugging;
+                if (debugging) {
+                    debuggingContainer.style.display = 'block';
+                } else {
+                    debuggingContainer.style.display = 'none';
+                }
+            });
+            const debuggingContainer = document.getElementById('debuggingContainer');
+            document.getElementById('debugMediaDevices').addEventListener("click", () => { testMediaDevices(); });
+            document.getElementById('debugGeolocation').addEventListener("click", () => { testGeolocation(); });
+            document.getElementById('debugAddress').addEventListener("click", () => { testAddressAPI(); });
+
+            function testMediaDevices() {
+                if (window.isSecureContext) {
+                    alert('Page is in a secure context (HTTPS or localhost).');
+                } else {
+                    alert('getUserMedia requires a secure context (HTTPS or localhost).');
+                }
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    alert('getUserMedia is not supported in this browser');
+                } else {
+                    alert('getUserMedia is supported!');
+                }
+            }
+            async function testGeolocation() {
+                try {
+                    let { longitude, latitude } = await getCoordinates();
+                    testLong = longitude;
+                    testLat = latitude;
+                    if (testLong || testLat) {
+                        document.getElementById('debugAddress').disabled = false;
+                    }
+                    alert(`longitude: ${longitude}, latitude: ${latitude}`);
+                } catch (error) {
+                    alert(`Error: ${error}`);
+                }
+            }
+            async function testAddressAPI() {
+                try {
+                    let testAddress = await getAddress(testLong, testLat);
+                    alert(`Address: ${testAddress}`);
+                } catch (error) {
+                    alert(`Error: ${error}`);
+                }
+            }
+
         })
     </script>
 
