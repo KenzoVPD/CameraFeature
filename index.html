@@ -185,15 +185,16 @@
     </div>
     <!-- {{-- CAMERA MODAL --}} -->
     <div class="modal fade" id="cameraModal" tabindex="-1" aria-labelledby="cameraModalLabel">
-        <div class="modal-dialog modal-dialog-centered modal-md">
-            <div class="modal-content">
+        <div class="modal-dialog modal-dialog-centered" style="margin: auto; max-width: 90%; width:fit-content;">
+            <div class="modal-content" style="max-height: 90vh; height: auto; overflow: hidden;">
                 <!-- {{-- <div class="modal-header">
                     <h5 class="modal-title" id="cameraModalLabel">Modal Title</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div> --}} -->
                 <div class="modal-body">
-                    <video id="videoElement"
-                        style="width: 100%; transform: scaleX(-1); -webkit-transform: scaleX(-1);"></video>
+                    <!-- <video id="videoElement"
+                        style="width: 100%; transform: scaleX(-1); -webkit-transform: scaleX(-1);"></video> -->
+                    <video id="videoElement" style="width:100%; max-height: 50vh;"></video>
                     <canvas id="canvas" style="display: none"></canvas>
                     <img id="capturedPhoto" alt="Captured Photo" style="display: none">
                 </div>
@@ -273,8 +274,8 @@
                 // }
                 navigator.mediaDevices.getUserMedia({
                     video: {
-                        width: { min: 640, ideal: 640, max: 1280 }, // Set the preferred highest width and height
-                        height: { min: 400, ideal: 400, max: 720 },
+                        width: { min: 640, ideal: 1280, max: 1280 }, // Set the preferred highest width and height
+                        height: { min: 400, ideal: 720, max: 720 },
                         facingMode: { ideal: "user" },
                     }
                 })
@@ -285,9 +286,18 @@
                         videoElement.style.display = 'block';
                         capturedPhoto.style.display = 'none';
                         captureBtn.disabled = false;
-
-                        canvas.width = videoElement.videoWidth;
-                        canvas.height = videoElement.videoHeight;
+                        videoElement.addEventListener("loadedmetadata", () => {
+                            alert(`Resolution: ${videoElement.videoWidth}x${videoElement.videoHeight}`);
+                        });
+                        if (stream.getTracks()[0].getSettings().facingMode === "user") {
+                            // video.classList.add("front-camera");
+                            alert('USER: MIRRORED');
+                        } else {
+                            // video.classList.remove("front-camera");
+                            alert('Environment');
+                        }
+                        // canvas.width = videoElement.videoWidth;
+                        // canvas.height = videoElement.videoHeight;
                         // document.getElementById('retakeBtn').disabled = true;
                         // if(!streaming){
                         //     // Resize the canvas to fit the modal size
