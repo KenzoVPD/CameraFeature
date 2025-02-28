@@ -80,6 +80,11 @@
             font-size: 2rem;
             font-weight: 300;
         }
+
+        .front-camera {
+            transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+        }
     </style>
 </head>
 
@@ -290,10 +295,10 @@
                             alert(`Resolution: ${videoElement.videoWidth}x${videoElement.videoHeight}`);
                         });
                         if (stream.getTracks()[0].getSettings().facingMode === "user") {
-                            // video.classList.add("front-camera");
+                            videoElement.classList.add("front-camera");
                             alert('USER: MIRRORED');
                         } else {
-                            // video.classList.remove("front-camera");
+                            videoElement.classList.remove("front-camera");
                             alert('Environment');
                         }
                         // canvas.width = videoElement.videoWidth;
